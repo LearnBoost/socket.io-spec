@@ -145,10 +145,13 @@ The server can respond in three different ways:
   The handshake was successful.
 
   The body of the response should contain the session id (`sid`) given to the
-  client, followed by the heartbeat timeout and the connection closing timeout
-  separeted by `:`
+  client, followed by the heartbeat timeout, the connection closing timeout,
+  and the list of supported transports separated by `:`
 
-  For example `4d4f185e96a7b:15:10`.
+  The absence of a heartbeat timeout ('') is interpreted as the server and
+  client not expecting heartbeats.
+
+  For example `4d4f185e96a7b:15:10:websocket,xhr-polling`.
 
 ## Transport connection
 
@@ -187,7 +190,7 @@ For `xhr-multipart`, the built-in MIME framing is used for the sake of consisten
 When no built-in lightweight framing is available, and multiple messages need to be
 delivered (i.e: buffered messages), the following is used:
 
-    `\ufffd` [encoded message] `\ufffd`
+    `\ufffd` [message lenth] `\ufffd`
 
 Transports where the framing overhead is expensive (ie: when the xhr-polling
 transport tries to send data to the server).
@@ -197,11 +200,13 @@ transport tries to send data to the server).
 Messages have to be encoded before they're sent. The structure of a message is
 as follows:
 
-    [message type] ':' [message id] ':' [message endpoint] (':' [message data]) 
+    [message type] ':' [message id ('+')] ':' [message endpoint] (':' [message data]) 
 
 The message type is a single digit integer.
 
-The message id is an incremental integer, required for ACKs (can be ommitted)
+The message id is an incremental integer, required for ACKs (can be ommitted).
+If the message id is followed by a `+`, the ACK is not handled by socket.io,
+but by the user instead.
 
 Socket.IO has built-in support for multiple channels of communication (which we
 call "multiple sockets"). Each socket is identified by an endpoint (can be
@@ -248,17 +253,60 @@ send a heartbeat evert 15s).
 
 ### (`3`) Message
 
+    '3:' [message id ('+')] ':' [message endpoint] ':' [data]
+
 A regular message.
 
-### (`4`) JSON message
+    3:1::blabla
 
-A JSON encoded message
+### (`4`) JSON Message
 
-### (`5`) Error
+    '4:' [message id ('+')] ':' [message endpoint] ':' [json]
 
-  '4:' [HTTP status code]
+A JSON encoded message.
 
-For example, if a connection to a sub-socket is unauthorized
+    4:1::{"a":"b"}
+
+### (`5`) Event
+
+    '5:' [message id ('+')] ':' [message endpoint] ':' [event type] `\ufffd` [json]
+
+An event is like a regular message, but has a `type` identifier, and a JSON
+encoded array of arguments.
+
+The event names
+
+    'message'
+    'connect'
+    'disconnect'
+    'open'
+    'close'
+    'error'
+    'retry'
+    'reconnect'
+
+are reserved, and cannot be used by clients or servers with this message type.
+
+### (`6`) ACK
+
+    '6:::' [message id] '+' [data]
+
+An acknowledgment contains the message id as the message data. If a `+` sign
+follows the message id, it's treated as an event message packet.
+
+Example 1: simple acknowledgement
+
+    6:::4
+
+Example 2: complex acknowledgement
+
+    6:::4+["A","B"]
+
+### (`7`) Error
+
+    '7::' [endpoint] ':' [reason] '+' [advice]
+
+For example, if a connection to a sub-socket is unauthorized.
 
 ## Forced socket disconnection
 
@@ -266,8 +314,9 @@ A Socket.IO server must provide an endpoint to force the disconnection of the
 socket.
 
 While closing the transport connection is enough to trigger a disconnection, it
-sometimes is desireable.
+sometimes is desireable to make sure no timeouts are activated and the
+disconnection events fire immediately.
 
     http://example.com/socket.io/1/xhr-polling/812738127387123?disconnect
 
-The server must respond with `200 OK` or `500` if a problem is detected.
+The server must respond with `200 OK`, or `500` if a problem is detected.
