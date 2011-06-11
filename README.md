@@ -269,10 +269,10 @@ A JSON encoded message.
 
 ### (`5`) Event
 
-    '5:' [message id ('+')] ':' [message endpoint] ':' [event type] `\ufffd` [json]
+    '5:' [message id ('+')] ':' [message endpoint] ':' [json encoded event]
 
-An event is like a regular message, but has a `type` identifier, and a JSON
-encoded array of arguments.
+An event is like a json message, but has mandatory `name` and `args` fields.
+`name` is a string and `args` an array.
 
 The event names
 
