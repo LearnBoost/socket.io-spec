@@ -308,6 +308,11 @@ Example 2: complex acknowledgement
 
 For example, if a connection to a sub-socket is unauthorized.
 
+### (`8`) Noop
+
+No operation. Used for example to close a poll after the polling duration times
+out.
+
 ## Forced socket disconnection
 
 A Socket.IO server must provide an endpoint to force the disconnection of the
