@@ -242,7 +242,7 @@ Example:
     1::/test?my=param
 
 To acknowledge the connection, the server echoes back the message. Otherwise,
-the server might want to respond with a `5` packet.
+the server might want to respond with a error packet.
 
 ### (`2`) Heartbeat
 
