@@ -194,7 +194,7 @@ delivered (i.e: buffered messages):
 
 Example:  
 Consider the event-sequence `{"name":"abc","args":[1,2,3]}`,
-`{"name":"utf8-test","args":["Iñtërnâtiônàlizætiøn"]}` wasto be sent through the
+`{"name":"utf8-test","args":["Iñtërnâtiônàlizætiøn"]}` was to be sent through the
 `xhr-polling` transport.
 A valid response body would then be:
 
