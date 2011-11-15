@@ -1,4 +1,3 @@
-
 Socket.IO protocol
 ==================
 
@@ -187,13 +186,20 @@ framing mechanisms for sending and receiving messages.
 
 For `xhr-multipart`, the built-in MIME framing is used for the sake of consistency.
 
-When no built-in lightweight framing is available, and multiple messages need to be
-delivered (i.e: buffered messages), the following is used:
+For transports like e.g. `xhr-polling`, where no built-in lightweight framing is
+available, the following framing pattern is used when multiple messages need to be
+delivered (i.e: buffered messages):
 
     `\ufffd` [message lenth] `\ufffd`
 
-Transports where the framing overhead is expensive (ie: when the xhr-polling
-transport tries to send data to the server).
+Example:  
+Consider the event-sequence `{"name":"abc","args":[1,2,3]}`,
+`{"name":"utf8-test","args":["Iñtërnâtiônàlizætiøn"]}` wasto be sent through the
+`xhr-polling` transport.
+A valid response body would then be:
+
+    \ufffd33\ufffd5:::{"name":"abc","args":[1,2,3]}\ufffd63\ufffd5:::{"name":"utf8-test","args":["Iñtërnâtiônàlizætiøn"]}
+
 
 ### Encoding
 
