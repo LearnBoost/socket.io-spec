@@ -1,4 +1,3 @@
-
 Socket.IO protocol
 ==================
 
@@ -20,7 +19,7 @@ applications and games.
 - Multiple transport support (old user agents, mobile browsers, etc).
 - Multiple sockets under the same connection (namespaces).
 - Disconnection detection through heartbeats.
-- Optional acknoledgments.
+- Optional acknowledgments.
 - Reconnection support with buffering (ideal for mobile devices or bad networks)
 - Lightweight protocol that sits on top of HTTP.
 
