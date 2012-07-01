@@ -1,4 +1,3 @@
-
 Socket.IO protocol
 ==================
 
@@ -190,7 +189,7 @@ For `xhr-multipart`, the built-in MIME framing is used for the sake of consisten
 When no built-in lightweight framing is available, and multiple messages need to be
 delivered (i.e: buffered messages), the following is used:
 
-    `\ufffd` [message lenth] `\ufffd`
+    `\ufffd` [message length] `\ufffd`
 
 Transports where the framing overhead is expensive (ie: when the xhr-polling
 transport tries to send data to the server).
