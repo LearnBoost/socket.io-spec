@@ -1,4 +1,3 @@
-
 Socket.IO protocol
 ==================
 
@@ -20,7 +19,7 @@ applications and games.
 - Multiple transport support (old user agents, mobile browsers, etc).
 - Multiple sockets under the same connection (namespaces).
 - Disconnection detection through heartbeats.
-- Optional acknoledgments.
+- Optional acknowledgments.
 - Reconnection support with buffering (ideal for mobile devices or bad networks)
 - Lightweight protocol that sits on top of HTTP.
 
@@ -170,7 +169,7 @@ message exchange (protocol security, namespace, protocol version, transport, etc
 
 Messages can be sent and received by following this convention. **How** the messages
 are encoded and framed depends on each transport, but generally boils down to
-whether the transport has built-in framing (unidiretionally and/or bidirectionally).
+whether the transport has built-in framing (unidirectionally and/or bidirectionally).
 
 ### Unidirectional transports
 
@@ -204,7 +203,7 @@ as follows:
 
 The message type is a single digit integer.
 
-The message id is an incremental integer, required for ACKs (can be ommitted).
+The message id is an incremental integer, required for ACKs (can be omitted).
 If the message id is followed by a `+`, the ACK is not handled by socket.io,
 but by the user instead.
 
