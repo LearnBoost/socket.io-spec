@@ -189,7 +189,7 @@ For `xhr-multipart`, the built-in MIME framing is used for the sake of consisten
 When no built-in lightweight framing is available, and multiple messages need to be
 delivered (i.e: buffered messages), the following is used:
 
-    `\ufffd` [message lenth] `\ufffd`
+    `\ufffd` [message length] `\ufffd`
 
 Transports where the framing overhead is expensive (ie: when the xhr-polling
 transport tries to send data to the server).
@@ -248,7 +248,7 @@ the server might want to respond with a error packet.
 Sends a heartbeat. Heartbeats must be sent within the interval negotiated with
 the server. It's up to the client to decide the padding (for example, if the
 heartbeat timeout negotiated with the server is 20s, the client might want to
-send a heartbeat evert 15s).
+send a heartbeat every 15s).
 
 ### (`3`) Message
 
