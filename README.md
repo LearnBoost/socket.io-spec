@@ -143,9 +143,11 @@ The server can respond in three different ways:
 
   The handshake was successful.
 
-  The body of the response should contain the session id (`sid`) given to the
-  client, followed by the heartbeat timeout, the connection closing timeout,
-  and the list of supported transports separated by `:`
+  The response will provide the following elements seperated by `:` in order: the
+  session id (sid), the heartbeat timeout, the connection closing timeout, and
+  finally the list of supported transport formats.
+
+  The list of transport formats will be seperated by `,`.
 
   The absence of a heartbeat timeout ('') is interpreted as the server and
   client not expecting heartbeats.
